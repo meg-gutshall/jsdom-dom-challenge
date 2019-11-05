@@ -107,6 +107,22 @@ function pauseCounter() {
   }
 }
 
-
 // As a user, I can leave comments on my gameplay, such as: "Wow, what a fun game this is."
 
+const commentsForm = document.getElementById("comment-form");
+const commentsList = document.getElementById("list");
+let newComment;
+
+commentsForm.addEventListener("submit", addComment);
+
+function addComment(comment) {
+  comment.preventDefault();
+  
+  let commentText = document.getElementById("comment-input");
+
+  newComment = document.createElement("p");
+  newComment.innerText = commentText.value;
+  commentsList.appendChild(newComment);
+
+  commentText.value = "";
+}
