@@ -3,9 +3,22 @@
 // As a user, I should see the timer increment every second once the page has loaded.
 
 document.addEventListener("DOMContentLoaded", startCounter);
+let seconds;
+
+document.addEventListener("click", function(event) {
+  if (event.target == plusButton) {
+    incCounter();
+  } else if (event.target == minusButton) {
+    decCounter();
+  } else if (event.target == likeButton) {
+    newLike();
+  } else if (event.target == pauseButton) {
+    pauseCounter();
+  }
+});
 
 function startCounter() {
-  setInterval(incCounter, 1000);
+  seconds = setInterval(incCounter, 1000);
   incCounter();
 }
 
@@ -69,22 +82,31 @@ function updateLike() {
   // Pause the counter
   // Disable all buttons except the pause button
   // Display the text "resume" on the pause button
+// When 'resume' is clicked, it should restart the counter, re-enable the buttons, and change the button text back to "pause".
 
 const pauseButton = document.getElementById("pause");
+const buttons = document.getElementsByTagName("button");
 
+function pauseCounter() {
+  if (pauseButton.innerText == "pause") {
+    clearInterval(seconds);
+    pauseButton.innerText = "resume";
+  
+    for (let i = 0; i < buttons.length; i++) {
+      if (buttons[i].id != "pause") {
+        buttons[i].disabled = true;
+      }
+    }
+  } else if (pauseButton.innerText == "resume") {
+    startCounter();
+    pauseButton.innerText = "pause";
 
-document.addEventListener("click", function(event) {
-  if (event.target == plusButton) {
-    incCounter();
-  } else if (event.target == minusButton) {
-    decCounter();
-  } else if (event.target == likeButton) {
-    newLike();
-  } else if (event.target == pauseButton) {
-    // pause function
+    for (let i = 0; i < buttons.length; i++) {
+      buttons[i].disabled = false;
+    }
   }
-});
+}
 
-// When 'resume' is clicked, it should restart the counter and re-enable the buttons.
+
 // As a user, I can leave comments on my gameplay, such as: "Wow, what a fun game this is."
 
