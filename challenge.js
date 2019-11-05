@@ -28,6 +28,7 @@ function decCounter() {
 }
 
 // As a user, I can 'like' an individual number of the counter. I should see count of the number of 'likes' associated with that number.
+  // PSEUDOCODE
   // Listen for like button click
   // Grab counter number on "click"
   // See if the counterNumber has already been liked
@@ -37,29 +38,32 @@ function decCounter() {
     // Update list item to read "${counterNumber} has been liked ${frequency} times", frequency being > 1
 
 const likeButton = document.getElementById("heart");
-const likeList = document.getElementById("list");
+const likeList = document.getElementById("likes");
 
-let likeListItem = document.createElement("li");
-const likedNumbers = {};
+let likeListItem;
+let likedNumbers = {};
 
 function newLike() {
-  likedNumbers.push(counterNumber);
-  likedNumbers.forEach(function(likedNum) {
-
-  });
+  if (Object.keys(likedNumbers).includes(counterNumber.toString())) {
+    updateLike();
+  } else {
+    likeListItem = document.createElement("li");
+    firstTimeLike();
+  }
 }
 
-document.addEventListener("click", function(event) {
-  if (event.target == plusButton) {
-    incCounter();
-  } else if (event.target == minusButton) {
-    decCounter();
-  } else if (event.target == likeButton) {
-    // like function
-  } else if (event.target == pauseButton) {
-    // pause function
-  }
-});
+function firstTimeLike() {
+  likedNumbers[counterNumber] = 1;
+  likeListItem.id = "li-" + counterNumber;
+  likeListItem.innerText = `${counterNumber} has been liked 1 time`;
+  likeList.appendChild(likeListItem);
+}
+
+function updateLike() {
+  likedNumbers[counterNumber] += 1;
+  let updateListItem = document.getElementById(`li-${counterNumber}`);
+  updateListItem.innerText = `${counterNumber} has been liked ${likedNumbers[counterNumber]} times`;
+}
 
 // As a user, I can pause the counter, which should:
   // Pause the counter
@@ -68,6 +72,18 @@ document.addEventListener("click", function(event) {
 
 const pauseButton = document.getElementById("pause");
 
+
+document.addEventListener("click", function(event) {
+  if (event.target == plusButton) {
+    incCounter();
+  } else if (event.target == minusButton) {
+    decCounter();
+  } else if (event.target == likeButton) {
+    newLike();
+  } else if (event.target == pauseButton) {
+    // pause function
+  }
+});
 
 // When 'resume' is clicked, it should restart the counter and re-enable the buttons.
 // As a user, I can leave comments on my gameplay, such as: "Wow, what a fun game this is."
